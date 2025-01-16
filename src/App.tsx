@@ -37,7 +37,10 @@ function example() {
   
   return false;
 }
-  `.trim();
+`
+    .trim()
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 
   return (
     <div className="flex gap-4 p-4 h-screen">
@@ -67,24 +70,7 @@ function example() {
                 >
                   {(i + 1).toString().padStart(2, " ")}
                 </span>
-                <span>
-                  {line.replace(
-                    /(\/\/.+)|(".*")|(\b\d+\b)|(\bfunction\b|\bconst\b|\blet\b|\breturn\b|\bif\b)|(\bconsole\b)/g,
-                    (match) => {
-                      if (match.startsWith("//"))
-                        return `<span style="color: ${colors.gray}">${match}</span>`;
-                      if (match.startsWith('"'))
-                        return `<span style="color: ${colors.green}">${match}</span>`;
-                      if (/^\d+$/.test(match))
-                        return `<span style="color: ${colors.yellow}">${match}</span>`;
-                      if (/^(function|const|let|return|if)$/.test(match))
-                        return `<span style="color: ${colors.purple}">${match}</span>`;
-                      if (match === "console")
-                        return `<span style="color: ${colors.blue}">${match}</span>`;
-                      return match;
-                    }
-                  )}
-                </span>
+                <span dangerouslySetInnerHTML={{ __html: line }} />
               </div>
             ))}
           </pre>
