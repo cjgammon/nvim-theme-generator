@@ -4,17 +4,27 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button"; // Assuming a Button component is available
 
 const defaultColors = {
-  bg: "#282c34",
-  fg: "#abb2bf",
-  red: "#e06c75",
-  green: "#98c379",
-  yellow: "#e5c07b",
-  blue: "#61afef",
-  purple: "#c678dd",
-  cyan: "#56b6c2",
-  dark_gray: "#2c323c",
-  gray: "#5c6370",
-  light_gray: "#848b98",
+  bg: "#1a1b26",
+  bg_dark: "#16161e",
+  bg_highlight: "#292e42",
+  fg: "#c0caf5",
+  fg_dark: "#a9b1d6",
+  fg_gutter: "#3b4261",
+  red: "#f7768e",
+  green: "#9ece6a",
+  yellow: "#e0af68",
+  blue: "#7aa2f7",
+  purple: "#bb9af7",
+  cyan: "#7dcfff",
+  orange: "#ff9e64",
+  error: "#db4b4b",
+  warning: "#e0af68",
+  info: "#0db9d7",
+  hint: "#1abc9c",
+  dark_gray: "#1f2335",
+  gray: "#565f89",
+  light_gray: "#545c7e",
+  selection: "#28344a",
 };
 
 const NvimThemeEditor = () => {
@@ -30,20 +40,21 @@ const NvimThemeEditor = () => {
   const syntaxHighlight = (line) => {
     const commentRegex = /(\/\/.*)/g;
     const blockCommentRegex = /\/\*[\s\S]*?\*\//g;
-    const stringRegex = /(".*?")/g;
+    const stringRegex = /(["'`].*?["'`])/g;
+    const errorRegex = /\{\{(\w+)\}\}/g;
+    const hintRegex = /\|\|(\w+)\|\|/g;
+    const infoRegex = /\(\((\w+)\)\)/g;
+    const warningRegex = /\[\[(\w+)\]\]/g;
     const keywordRegex =
       /\b(const|let|if|return|function|true|false|this|console)\b/g;
     const numberRegex = /\b(\d+)\b/g;
     const functionRegex = /\b\w+(?=\s*\()/g;
     const classRegex = /\b(class)\s+(\w+)/g;
     const paramRegex = /\@(\w+)/g;
-    const typeRegex = /\{(\w+)\}/g;
+    const typeRegex = /(?<!\{)\{(\w+)\}(?!\})/g;
+    const templateStringRegex = /\$\{([^}]+)\}/g; // Regex to match ${...}
 
     return line
-      .replace(blockCommentRegex, (match) => {
-        console.log("a", match);
-        return `<span style="color:${colors.gray};font-style:italic;">${match}</span>`;
-      })
       .replace(stringRegex, `<span style="color:${colors.green};">$1</span>`)
       .replace(keywordRegex, `<span style="color:${colors.purple};">$&</span>`)
       .replace(
@@ -57,7 +68,21 @@ const NvimThemeEditor = () => {
       .replace(typeRegex, `{<span style="color:${colors.yellow};">$1</span>}`)
       .replace(commentRegex, (match) => {
         return `<span style="color:${colors.gray};font-style:italic;">${match}</span>`;
-      });
+      })
+      .replace(blockCommentRegex, (match) => {
+        console.log("a", match);
+        return `<span style="color:${colors.gray};font-style:italic;">${match}</span>`;
+      })
+      .replace(templateStringRegex, (match, inner) => {
+        return `<span style="color:${colors.cyan};">\$\{${inner}\}</span>`; // Color the content inside ${}
+      })
+      .replace(errorRegex, `<span style="color:${colors.error};">$1</span>`)
+      .replace(hintRegex, `<span style="color:${colors.hint};">$1</span>`)
+      .replace(infoRegex, `<span style="color:${colors.info};">$1</span>`)
+      .replace(
+        warningRegex,
+        `<span style="color:${colors.warning};">$1</span>`
+      );
   };
 
   const codeExample = `
@@ -112,6 +137,11 @@ class Animal {
 
 const dog = new Animal("Dog", "Woof");
 dog.makeSound();
+
+{{Error}}
+[[Warning]]
+||Hint||
+((Info))
 `
     .trim()
     .replace(/</g, "&lt;")
@@ -144,6 +174,35 @@ return M
     URL.revokeObjectURL(url);
   };
 
+  const getRandomColor = () => {
+    const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+    return randomColor;
+  };
+
+  const getContrastYIQ = (hexcolor) => {
+    const r = parseInt(hexcolor.slice(1, 3), 16);
+    const g = parseInt(hexcolor.slice(3, 5), 16);
+    const b = parseInt(hexcolor.slice(5, 7), 16);
+    const yiq = (r * 299 + g * 587 + b * 114) / 1000;
+    return yiq >= 128 ? "black" : "white";
+  };
+
+  const randomizeColors = () => {
+    const newColors = {};
+    for (const key in defaultColors) {
+      if (key !== "bg") {
+        let color;
+        do {
+          color = getRandomColor();
+        } while (getContrastYIQ(color) === "white" && key !== "bg"); // Ensure contrast for text colors
+        newColors[key] = color;
+      } else {
+        newColors[key] = defaultColors[key];
+      }
+    }
+    setColors(newColors);
+  };
+
   return (
     <div className="flex gap-4 p-4 h-screen w-screen">
       {/* Preview Panel */}
@@ -166,28 +225,15 @@ return M
               flexGrow: 1,
             }}
           >
-            {codeExample.split("\n").map((line, i) => (
-              <div key={i} className="flex">
-                <span
-                  style={{
-                    color: colors.gray,
-                    marginRight: "1rem",
-                    userSelect: "none",
-                  }}
-                >
-                  {(i + 1).toString().padStart(2, " ")}
-                </span>
-                <span
-                  dangerouslySetInnerHTML={{ __html: syntaxHighlight(line) }}
-                />
-              </div>
-            ))}
+            <span
+              dangerouslySetInnerHTML={{ __html: syntaxHighlight(codeExample) }}
+            />
           </pre>
         </CardContent>
       </Card>
 
       {/* Color Editor Panel */}
-      <Card className="w-80">
+      <Card className="w-80 overflow-scroll">
         <CardHeader>
           <CardTitle>Color Editor</CardTitle>
         </CardHeader>
@@ -219,6 +265,12 @@ return M
               className="w-full bg-gray-600 text-white"
             >
               Reset to Default
+            </Button>
+            <Button
+              onClick={randomizeColors}
+              className="w-full bg-green-600 text-white"
+            >
+              Randomize Colors
             </Button>
           </div>
         </CardContent>
