@@ -1,4 +1,28 @@
-export function THEME_TEMPLATE(colors) {
+export type ColorPalette = {
+  bg: string;
+  bg_dark: string;
+  bg_highlight: string;
+  fg: string;
+  fg_dark: string;
+  fg_gutter: string;
+  red: string;
+  green: string;
+  yellow: string;
+  blue: string;
+  purple: string;
+  cyan: string;
+  orange: string;
+  error: string;
+  warning: string;
+  info: string;
+  hint: string;
+  dark_gray: string;
+  gray: string;
+  light_gray: string;
+  selection: string;
+};
+
+export function THEME_TEMPLATE(colors: any) {
   return `
 local M = {}
 

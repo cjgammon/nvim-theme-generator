@@ -4,9 +4,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button"; // Assuming a Button component is available
 import { Label } from "@/components/ui/label"; // Assuming a Button component is available
 
-import { THEME_TEMPLATE, CODE_EXAMPLE } from "./consts";
+import { THEME_TEMPLATE, CODE_EXAMPLE, ColorPalette } from "./consts";
 
-const defaultColors = {
+const defaultColors: ColorPalette = {
   bg: "#1a1b26",
   bg_dark: "#16161e",
   bg_highlight: "#292e42",
@@ -60,11 +60,9 @@ const NvimThemeEditor = () => {
     return line
       .replace(stringRegex, `<span style="color:${colors.green};">$1</span>`)
       .replace(keywordRegex, `<span style="color:${colors.purple};">$&</span>`)
-      .replace(
-        classRegex,
-        (match, classWord, className) =>
-          `<span style="color:${colors.purple};">${classWord}</span> <span style="color:${colors.yellow};">${className}</span>`
-      )
+      .replace(classRegex, (_, classWord, className) => {
+        return `<span style="color:${colors.purple};">${classWord}</span> <span style="color:${colors.yellow};">${className}</span>`;
+      })
       .replace(numberRegex, `<span style="color:${colors.yellow};">$1</span>`)
       .replace(functionRegex, `<span style="color:${colors.blue};">$&</span>`)
       .replace(paramRegex, `<span style="color:${colors.purple};">$&</span>`)
@@ -76,7 +74,7 @@ const NvimThemeEditor = () => {
         console.log("a", match);
         return `<span style="color:${colors.gray};font-style:italic;">${match}</span>`;
       })
-      .replace(templateStringRegex, (match, inner) => {
+      .replace(templateStringRegex, (_, inner) => {
         return `<span style="color:${colors.cyan};">\$\{${inner}\}</span>`; // Color the content inside ${}
       })
       .replace(errorRegex, `<span style="color:${colors.error};">$1</span>`)
@@ -131,7 +129,9 @@ const NvimThemeEditor = () => {
         newColors[key] = defaultColors[key];
       }
     }
-    setColors(newColors);
+
+    const palette: ColorPalette = newColors as ColorPalette;
+    setColors(palette);
   };
 
   return (
