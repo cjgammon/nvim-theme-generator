@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button"; // Assuming a Button component is available
+import { Label } from "@/components/ui/label"; // Assuming a Button component is available
+
+import { THEME_TEMPLATE, CODE_EXAMPLE } from "./consts";
 
 const defaultColors = {
   bg: "#1a1b26",
@@ -85,91 +88,19 @@ const NvimThemeEditor = () => {
       );
   };
 
-  const codeExample = `
-/**
- * Calculates the factorial of a number.
- * @param {number} n - The number to calculate the factorial for.
- * @returns {number} - The factorial of the input number.
- */
-function factorial(n) {
-  // Base case
-  if (n <= 1) {
-    return 1;
-  }
-
-  // Recursive case
-  return n * factorial(n - 1);
-}
-
-// Example usage
-const result = factorial(5);
-console.log("Factorial of 5 is:", result);
-
-// Working with arrays
-const fruits = ["apple", "banana", "cherry"];
-fruits.forEach((fruit, index) => {
-  console.log(\`Fruit \${index + 1}: \${fruit}\`);
-});
-
-// Handling objects
-const person = {
-  name: "John Doe",
-  age: 30,
-  greet: function() {
-    console.log(\`Hello, my name is \${this.name} and I am \${this.age} years old.\`);
-  },
-};
-
-// Call the greet method
-person.greet();
-
-// Using a class
-class Animal {
-  constructor(name, sound) {
-    this.name = name;
-    this.sound = sound;
-  }
-
-  makeSound() {
-    console.log(\`\${this.name} says \${this.sound}!\`);
-  }
-}
-
-const dog = new Animal("Dog", "Woof");
-dog.makeSound();
-
-{{Error}}
-[[Warning]]
-||Hint||
-((Info))
-`
-    .trim()
+  const codeExample = CODE_EXAMPLE.trim()
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
   const exportTheme = () => {
-    const luaTheme = `
-local M = {}
-
-local colors = {
-${Object.entries(colors)
-  .map(([key, value]) => `${key} = "${value}",`)
-  .join("\n ")}
-}
-
-function M.setup()
-  vim.g.colors_name = "mytheme"
-  -- Define highlight groups here...
-end
-
-return M
-`.trim();
+    const luaTheme = THEME_TEMPLATE(colors);
+    luaTheme.trim();
 
     const blob = new Blob([luaTheme], { type: "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "mytheme.lua";
+    a.download = "init.lua";
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -238,18 +169,17 @@ return M
           <CardTitle>Color Editor</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
+          <div className="grid grid-cols-3 gap-3">
             {Object.entries(colors).map(([key, value]) => (
-              <div key={key} className="flex items-center gap-2">
+              <div key={key} className="flex items-center gap-2 flex-col">
                 <Input
+                  name={"input" + key}
                   type="color"
                   value={value}
                   onChange={(e) => updateColor(key, e.target.value)}
                   className="w-16 h-8"
                 />
-                <span className="text-sm font-medium capitalize">
-                  {key.replace(/_/g, " ")}
-                </span>
+                <Label htmlFor={"input" + key}>{key.replace(/_/g, " ")}</Label>
               </div>
             ))}
           </div>
