@@ -107,6 +107,9 @@ class ThemeModel {
     Type: {
       fg: "colors.yellow",
     },
+    TemplateStringPlaceholder: {
+      fg: "colors.cyan",
+    },
   };
   lsp = {
     DiagnosticError: {

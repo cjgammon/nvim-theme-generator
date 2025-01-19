@@ -5,6 +5,7 @@ import CODE_EXAMPLE from "../../models/codeExample";
 import themeModel from "../../models/theme/themeModel";
 
 import { sanitizeColorName } from "../../utils/utils";
+import { info } from "console";
 
 const PreviewPanel = () => {
   const backgroundColorName = sanitizeColorName(themeModel.editor.Normal.bg);
@@ -18,8 +19,6 @@ const PreviewPanel = () => {
     .replace(/>/g, "&gt;");
 
   const syntaxHighlight = (code) => {
-    //TODO:: colors are hardcoded, need to use keys based on groups
-
     const commentRegex = /(\/\/.*)/g;
     const blockCommentRegex = /\/\*[\s\S]*?\*\//g;
     const stringRegex = /(["'`].*?["'`])/g;
@@ -34,35 +33,71 @@ const PreviewPanel = () => {
     const classRegex = /\b(class)\s+(\w+)/g;
     const paramRegex = /\@(\w+)/g;
     const typeRegex = /(?<!\{)\{(\w+)\}(?!\})/g;
-    const templateStringRegex = /\$\{([^}]+)\}/g; // Regex to match ${...}
+    const templateVarRegex = /\$\{([^}]+)\}/g; // Regex to match ${...}
 
     const colors = themeModel.colors;
+    const stringColor = sanitizeColorName(themeModel.syntax.String.fg);
+    const keywordColor = sanitizeColorName(themeModel.syntax.Keyword.fg);
+    const typeColor = sanitizeColorName(themeModel.syntax.Type.fg);
+    const numberColor = sanitizeColorName(themeModel.syntax.Number.fg);
+    const constColor = sanitizeColorName(themeModel.syntax.Constant.fg);
+    const functionColor = sanitizeColorName(themeModel.syntax.Function.fg);
+    const statementColor = sanitizeColorName(themeModel.syntax.Statement.fg);
+    const commentColor = sanitizeColorName(themeModel.syntax.Comment.fg);
+    const templateString = sanitizeColorName(
+      themeModel.syntax.TemplateStringPlaceholder.fg
+    );
+    const errorColor = sanitizeColorName(themeModel.lsp.DiagnosticError.fg);
+    const hintColor = sanitizeColorName(themeModel.lsp.DiagnosticHint.fg);
+    const infoColor = sanitizeColorName(themeModel.lsp.DiagnosticInfo.fg);
+    const warningColor = sanitizeColorName(themeModel.lsp.DiagnosticWarn.fg);
 
     return code
-      .replace(stringRegex, `<span style="color:${colors.green};">$1</span>`)
-      .replace(keywordRegex, `<span style="color:${colors.purple};">$&</span>`)
+      .replace(
+        stringRegex,
+        `<span style="color:${colors[stringColor]};">$1</span>`
+      )
+      .replace(
+        keywordRegex,
+        `<span style="color:${colors[keywordColor]};">$&</span>`
+      )
       .replace(classRegex, (_, classWord, className) => {
-        return `<span style="color:${colors.purple};">${classWord}</span> <span style="color:${colors.yellow};">${className}</span>`;
+        return `<span style="color:${colors[keywordColor]};">${classWord}</span> <span style="color:${colors[constColor]};">${className}</span>`;
       })
-      .replace(numberRegex, `<span style="color:${colors.yellow};">$1</span>`)
-      .replace(functionRegex, `<span style="color:${colors.blue};">$&</span>`)
-      .replace(paramRegex, `<span style="color:${colors.purple};">$&</span>`)
-      .replace(typeRegex, `{<span style="color:${colors.yellow};">$1</span>}`)
+      .replace(
+        numberRegex,
+        `<span style="color:${colors[numberColor]};">$1</span>`
+      )
+      .replace(
+        functionRegex,
+        `<span style="color:${colors[functionColor]};">$&</span>`
+      )
+      .replace(
+        paramRegex,
+        `<span style="color:${colors[statementColor]};">$&</span>`
+      )
+      .replace(
+        typeRegex,
+        `{<span style="color:${colors[typeColor]};">$1</span>}`
+      )
       .replace(commentRegex, (match) => {
-        return `<span style="color:${colors.gray};font-style:italic;">${match}</span>`;
+        return `<span style="color:${colors[commentColor]};font-style:italic;">${match}</span>`;
       })
       .replace(blockCommentRegex, (match) => {
-        return `<span style="color:${colors.gray};font-style:italic;">${match}</span>`;
+        return `<span style="color:${colors[commentColor]};font-style:italic;">${match}</span>`;
       })
-      .replace(templateStringRegex, (_, inner) => {
-        return `<span style="color:${colors.cyan};">\$\{${inner}\}</span>`; // Color the content inside ${}
+      .replace(templateVarRegex, (_, inner) => {
+        return `<span style="color:${colors[templateString]};">\$\{${inner}\}</span>`; // Color the content inside ${}
       })
-      .replace(errorRegex, `<span style="color:${colors.error};">$1</span>`)
-      .replace(hintRegex, `<span style="color:${colors.hint};">$1</span>`)
-      .replace(infoRegex, `<span style="color:${colors.info};">$1</span>`)
+      .replace(
+        errorRegex,
+        `<span style="color:${colors[errorColor]};">$1</span>`
+      )
+      .replace(hintRegex, `<span style="color:${colors[hintColor]};">$1</span>`)
+      .replace(infoRegex, `<span style="color:${colors[infoColor]};">$1</span>`)
       .replace(
         warningRegex,
-        `<span style="color:${colors.warning};">$1</span>`
+        `<span style="color:${colors[warningColor]};">$1</span>`
       );
     return code;
   };

@@ -1,21 +1,19 @@
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button"; // Assuming a Button component is available
+import themeModel from "../models/theme/themeModel";
 
 const ExportPanel = () => {
   const exportTheme = () => {
-    /*
-        const luaTheme = THEME_TEMPLATE(colors);
-        luaTheme.trim();
-    
-        const blob = new Blob([luaTheme], { type: "text/plain;charset=utf-8" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "init.lua";
-        a.click();
-        URL.revokeObjectURL(url);
-        */
+    const luaTheme = themeModel.export();
+
+    const blob = new Blob([luaTheme], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "init.lua";
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   const getRandomColor = () => {
@@ -56,7 +54,7 @@ const ExportPanel = () => {
       <CardContent>
         <div className="mt-4 space-y-2">
           <Button
-            //onClick={exportTheme}
+            onClick={exportTheme}
             className="w-full bg-blue-600 text-white"
           >
             Export Theme

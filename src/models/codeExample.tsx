@@ -36,7 +36,6 @@ const person = {
 // Call the greet method
 person.greet();
 
-// Using a class
 class Animal {
   constructor(name, sound) {
     this.name = name;
