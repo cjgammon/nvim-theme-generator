@@ -21,22 +21,22 @@ const ThemePanel = () => {
       <CardContent>
         <Accordion type="single" collapsible>
           {Object.entries(themeStructure.groups).map(([key, value], index) => {
-            const group = key;
+            const section = key;
             return (
               <AccordionItem value={key + index} key={key + index}>
                 <AccordionTrigger>{key}</AccordionTrigger>
                 <AccordionContent className="p-3">
                   <Accordion type="single" collapsible>
                     {Object.entries(value.groups).map(([key, value], index) => {
-                      const propKey = key;
+                      const item = key;
                       return (
                         <AccordionItem value={"test" + index} key={key + index}>
                           <AccordionTrigger>{key}</AccordionTrigger>
                           <AccordionContent>
                             <div>{value.description}</div>
                             <GroupComponent
-                              group={group}
-                              propKey={propKey}
+                              section={section}
+                              item={item}
                               options={value.options}
                             ></GroupComponent>
                           </AccordionContent>

@@ -1,11 +1,14 @@
-const Theme = {
-  metadata: {
+import { makeAutoObservable } from "mobx";
+
+class ThemeModel {
+  metadata = {
     name: "My Theme",
     author: "",
     description: "",
     background: "dark",
-  },
-  colors: {
+  };
+
+  colors = {
     //bg: "#1a1b26",
     bg: "#ff0000",
     bg_dark: "#16161e",
@@ -26,8 +29,9 @@ const Theme = {
     warning: "#e0af68",
     info: "#0db9d7",
     hint: "#1abc9c",
-  },
-  editor: {
+  };
+
+  editor = {
     Normal: {
       fg: "colors.fg",
       bg: "colors.bg",
@@ -68,8 +72,8 @@ const Theme = {
       fg: "colors.blue",
       bg: "colors.bg_highlight",
     },
-  },
-  syntax: {
+  };
+  syntax = {
     Comment: {
       fg: "colors.gray",
       italic: true,
@@ -104,8 +108,8 @@ const Theme = {
     Type: {
       fg: "colors.yellow",
     },
-  },
-  lsp: {
+  };
+  lsp = {
     DiagnosticError: {
       fg: "colors.error",
     },
@@ -134,8 +138,8 @@ const Theme = {
       sp: "colors.hint",
       undercurl: true,
     },
-  },
-  git: {
+  };
+  git = {
     GitSignsAdd: {
       fg: "colors.green",
     },
@@ -145,7 +149,18 @@ const Theme = {
     GitSignsDelete: {
       fg: "colors.red",
     },
-  },
-};
+  };
 
-export default Theme;
+  constructor() {
+    makeAutoObservable(this);
+  }
+
+  updateColor(section: string, item: string, label: string, newValue: string) {
+    console.log("update theme store", newValue);
+    //this.themeModel[section][item][label] = `colors.${newValue}`;
+    this[section][item][label] = `colors.${newValue}`;
+  }
+}
+
+const themeModel = new ThemeModel();
+export default themeModel;

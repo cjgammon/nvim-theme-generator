@@ -1,65 +1,67 @@
 import React, { useState } from "react";
+import { observer } from "mobx-react";
+
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 
 import themeModel from "../../models/theme/themeModel";
 
 import ColorSwatchPicker from "./colorPicker";
+import { sanitizeColorName } from "../../utils/utils";
 
-export interface GroupComponentProps {
-  group: string;
-  propKey: string;
+export interface sectionComponentProps {
+  section: string;
+  item: string;
   options: string[];
 }
 
-const GroupComponent: React.FC<GroupComponentProps> = ({
-  group,
-  propKey,
+const sectionComponent: React.FC<sectionComponentProps> = ({
+  section,
+  item,
   options,
 }) => {
   //iterate options to show ui
   return (
     <div>
-      {options.map((value) => {
-        if (value == "fg" || value == "bg" || value == "sp") {
-          console.log(group, propKey, options);
-
+      {options.map((label) => {
+        if (label == "fg" || label == "bg" || label == "sp") {
           if (
-            !themeModel[group] ||
-            !themeModel[group][propKey] ||
-            !themeModel[group][propKey][value]
+            !themeModel[section] ||
+            !themeModel[section][item] ||
+            !themeModel[section][item][label]
           ) {
-            return <div>{value} : no matching value</div>;
+            return <div>{label} : no matching label</div>;
           }
 
-          const colorName = themeModel[group][propKey][value].replace(
-            "colors.",
-            ""
-          );
+          const colorName = sanitizeColorName(themeModel[section][item][label]);
           const color = themeModel.colors[colorName]; // Get the color object from themeModel
 
-          console.log(themeModel.colors, colorName, color);
           return (
             <ColorSwatchPicker
-              tag={value + propKey}
-              value={value}
+              key={section + item + label}
               color={color}
+              label={label}
+              selectedValue={colorName}
+              onColorChange={(newValue) => {
+                //themeModel[section][item][label] = `colors.${newValue}`;
+                themeModel.updateColor(section, item, label, newValue);
+              }}
             />
           );
         } else if (
-          value == "bold" ||
-          value == "blend" ||
-          value == "italic" ||
-          value == "undercurl"
+          label == "bold" ||
+          label == "blend" ||
+          label == "italic" ||
+          label == "undercurl"
         ) {
           return (
             <div className="flex items-center space-x-2">
-              <Checkbox id={value + propKey} />
+              <Checkbox id={label + item} />
               <label
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                htmlFor={value + propKey}
+                htmlFor={label + item}
               >
-                {value}
+                {label}
               </label>
             </div>
           );
@@ -69,4 +71,4 @@ const GroupComponent: React.FC<GroupComponentProps> = ({
   );
 };
 
-export default GroupComponent;
+export default observer(sectionComponent);

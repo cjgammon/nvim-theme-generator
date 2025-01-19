@@ -5,4 +5,5 @@ declare module "@/components/ui/tooltip";
 declare module "@/components/ui/label";
 declare module "@/components/ui/accordion";
 declare module "@/components/ui/checkbox";
+declare module "@/components/ui/select";
 declare module "@/lib/utils";

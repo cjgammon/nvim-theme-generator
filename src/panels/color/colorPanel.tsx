@@ -24,7 +24,14 @@ const ColorPanel = () => {
       <CardContent>
         <div className="grid grid-cols-3 gap-3">
           {Object.entries(themeModel.colors).map(([key, color]) => (
-            <Input type="color" value={color} key={key}></Input>
+            <Input
+              type="color"
+              value={color}
+              key={key}
+              onChange={() => {
+                console.log("hi");
+              }}
+            ></Input>
           ))}
         </div>
         <div className="flex flex-col mt-4">

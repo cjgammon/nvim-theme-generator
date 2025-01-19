@@ -6,8 +6,17 @@ import themeModel from "../../models/theme/themeModel";
 import { sanitizeColorName } from "../../utils/utils";
 
 const PreviewPanel = () => {
+  console.log(themeModel);
+  console.log(themeModel.editor);
+  console.log(themeModel.editor.Normal);
+  console.log(themeModel.editor.Normal.bg);
+
+  console.log("hi", themeModel.editor.Normal.bg);
   const backgroundColorName = sanitizeColorName(themeModel.editor.Normal.bg);
+  console.log("hi1", backgroundColorName);
+  console.log("hi1a", themeModel.colors);
   const backgroundColor = themeModel.colors[backgroundColorName];
+  console.log("hi2", backgroundColor);
 
   const colorName = sanitizeColorName(themeModel.editor.Normal.fg);
   const color = themeModel.colors[colorName];
