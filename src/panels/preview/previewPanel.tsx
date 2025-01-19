@@ -1,3 +1,4 @@
+import { observer } from "mobx-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CODE_EXAMPLE from "../../models/codeExample";
 
@@ -102,4 +103,4 @@ const PreviewPanel = () => {
   );
 };
 
-export default PreviewPanel;
+export default observer(PreviewPanel);
