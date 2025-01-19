@@ -9,8 +9,7 @@ class ThemeModel {
   };
 
   colors = {
-    //bg: "#1a1b26",
-    bg: "#ff0000",
+    bg: "#1a1b26",
     bg_dark: "#16161e",
     bg_highlight: "#292e42",
     fg: "#c0caf5",
@@ -155,10 +154,67 @@ class ThemeModel {
     makeAutoObservable(this);
   }
 
+  changeColorValue(key, value) {
+    this.colors[key] = value;
+  }
+
   updateColor(section: string, item: string, label: string, newValue: string) {
     console.log("update theme store", newValue);
     //this.themeModel[section][item][label] = `colors.${newValue}`;
     this[section][item][label] = `colors.${newValue}`;
+  }
+
+  export() {
+    const colors = this.colors;
+    const groups = {
+      ...this.editor,
+      ...this.syntax,
+      ...this.lsp,
+      ...this.git,
+      // Add any other groups you want to include
+    };
+
+    const luaTheme = `
+local M = {}
+
+local colors = {
+${Object.entries(colors)
+  .map(([key, value]) => `  ${key} = "${value}",`)
+  .join("\n")}
+}
+
+local groups = {
+${Object.entries(groups)
+  .map(([groupName, settings]) => {
+    const fg = "fg" in settings ? `fg = ${settings.fg}` : "";
+    const bg = "bg" in settings ? `bg = ${settings.bg}` : "";
+    const sp = "sp" in settings ? `sp = ${settings.sp}` : "";
+    const otherAttributes = Object.entries(settings)
+      .filter(([key]) => !["fg", "bg", "sp"].includes(key))
+      .map(([key, value]) => `${key} = ${value}`)
+      .join(", ");
+    return `  ${groupName} = { ${fg} ${bg} ${sp} ${otherAttributes} },`;
+  })
+  .join("\n")}
+}
+
+function M.setup()
+    vim.cmd("highlight clear")
+    if vim.fn.exists("syntax_on") then
+        vim.cmd("syntax reset")
+    end
+
+    vim.g.colors_name = "mytheme"
+
+    for group, settings in pairs(groups) do
+        vim.api.nvim_set_hl(0, group, settings)
+    end
+end
+
+return M
+`;
+
+    return luaTheme.trim();
   }
 }
 

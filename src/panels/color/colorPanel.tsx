@@ -16,8 +16,13 @@ const ColorPanel = () => {
     }
   };
 
+  const handleColorChange = (e, key) => {
+    console.log(e.target.value, key);
+    themeModel.changeColorValue(key, e.target.value);
+  };
+
   return (
-    <Card className="overflow-scroll h-80">
+    <Card className="overflow-scroll h-120">
       <CardHeader>
         <CardTitle>Colors</CardTitle>
       </CardHeader>
@@ -28,9 +33,7 @@ const ColorPanel = () => {
               type="color"
               value={color}
               key={key}
-              onChange={() => {
-                console.log("hi");
-              }}
+              onChange={(e) => handleColorChange(e, key)}
             ></Input>
           ))}
         </div>
