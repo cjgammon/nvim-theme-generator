@@ -117,6 +117,9 @@ class ThemeModel {
     Keyword: {
       fg: "colors.purple",
     },
+    Special: {
+      fg: "colors.purple",
+    },
     Type: {
       fg: "colors.yellow",
     },

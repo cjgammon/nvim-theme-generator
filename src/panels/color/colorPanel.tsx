@@ -39,8 +39,24 @@ const ColorPanel = () => {
     }
   };
 
+  const handlePaste = (e) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData("text");
+    try {
+      const colors = JSON.parse(pastedData);
+      /*
+      Object.entries(colors).forEach(([key, value]) => {
+        themeModel.setColor(key, formatHexColor(value));
+      });
+      */
+      themeModel.setColors(colors);
+    } catch (error) {
+      console.error("Invalid JSON format:", error, pastedData);
+    }
+  };
+
   return (
-    <Card className="overflow-scroll h-120">
+    <Card className="overflow-scroll h-120" onPaste={handlePaste}>
       <CardHeader>
         <CardTitle>Colors</CardTitle>
       </CardHeader>
