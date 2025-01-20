@@ -83,7 +83,7 @@ class ThemeModel {
 
   search_selection = {
     Search: {
-      fg: "colors.blue",
+      fg: "colors.selection",
       bg: "colors.bg_highlight",
     },
 
@@ -234,6 +234,23 @@ class ThemeModel {
 
   updateColor(section: string, item: string, label: string, newValue: string) {
     this[section][item][label] = `colors.${newValue}`;
+  }
+
+  getGroupMappings() {
+    const groups = {
+      ...this.editor,
+      ...this.syntax,
+      ...this.lsp,
+      ...this.git,
+      ...this.statusline,
+      ...this.spelling,
+      ...this.selection,
+      ...this.diff,
+      ...this.search_selection,
+      // Add any other groups you want to include
+    };
+
+    return groups;
   }
 
   export() {
