@@ -12,6 +12,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import ConfigPanel from "./panels/config/configPanel";
 
 const NvimThemeEditor = () => {
   return (
@@ -24,10 +25,9 @@ const NvimThemeEditor = () => {
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Are you absolutely sure?</DialogTitle>
+              <DialogTitle>Configuration</DialogTitle>
               <DialogDescription>
-                This action cannot be undone. This will permanently delete your
-                account and remove your data from our servers.
+                <ConfigPanel />
               </DialogDescription>
             </DialogHeader>
           </DialogContent>

@@ -55,6 +55,14 @@ class ThemeModel {
     CursorLineNr: {
       fg: "colors.fg_dark",
     },
+    SignColumn: { bg: "colors.bg" },
+    ColorColumn: { bg: "colors.bg_highlight" },
+    Folded: { fg: "colors.blue", bg: "colors.fg_gutter" },
+    FoldColumn: { fg: "colors.fg_gutter" },
+    VertSplit: { fg: "colors.fg_gutter" },
+  };
+
+  diff = {
     DiffAdd: {
       fg: "colors.green",
       bg: "colors.bg_highlight",
@@ -71,11 +79,28 @@ class ThemeModel {
       fg: "colors.blue",
       bg: "colors.bg_highlight",
     },
-    SignColumn: { bg: "colors.bg" },
-    ColorColumn: { bg: "colors.bg_highlight" },
-    Folded: { fg: "colors.blue", bg: "colors.fg_gutter" },
-    FoldColumn: { fg: "colors.fg_gutter" },
-    VertSplit: { fg: "colors.fg_gutter" },
+  };
+
+  search_selection = {
+    Search: {
+      fg: "colors.blue",
+      bg: "colors.bg_highlight",
+    },
+
+    IncSearch: {
+      fg: "colors.blue",
+      bg: "colors.bg_highlight",
+    },
+
+    Visual: {
+      fg: "colors.blue",
+      bg: "colors.bg_highlight",
+    },
+
+    VisualNOS: {
+      fg: "colors.blue",
+      bg: "colors.bg_highlight",
+    },
   };
 
   selection = {
@@ -126,7 +151,25 @@ class ThemeModel {
     TemplateStringPlaceholder: {
       fg: "colors.cyan",
     },
+    Exception: {
+      fg: "colors.cyan",
+    },
+    Typedef: {
+      fg: "colors.cyan",
+    },
   };
+
+  spelling = {
+    SpellBad: {
+      fg: "colors.red",
+      sp: "colors.red",
+    },
+    SpellRare: {
+      fg: "colors.yellow",
+      sp: "colors.yellow",
+    },
+  };
+
   lsp = {
     DiagnosticError: {
       fg: "colors.error",

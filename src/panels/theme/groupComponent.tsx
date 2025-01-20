@@ -25,6 +25,7 @@ const sectionComponent: React.FC<sectionComponentProps> = ({
     <div>
       {options.map((label) => {
         if (label == "fg" || label == "bg" || label == "sp") {
+          console.log(section, item, label);
           if (
             !themeModel[section] ||
             !themeModel[section][item] ||
