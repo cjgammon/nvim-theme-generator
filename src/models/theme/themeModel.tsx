@@ -5,9 +5,9 @@ class ThemeModel {
     name: "My Theme",
     author: "",
     description: "",
-    background: "dark",
   };
 
+  /*
   colors = {
     bg: "#1a1b26",
     bg_dark: "#16161e",
@@ -29,144 +29,130 @@ class ThemeModel {
     info: "#0db9d7",
     hint: "#1abc9c",
   };
+  */
+
+  colors = {
+    // Base UI colors
+    background: "#1a1b26",
+    background_darker: "#16161e",
+    background_highlight: "#292e42",
+    foreground: "#c0caf5",
+    foreground_muted: "#a9b1d6",
+    foreground_subtle: "#3b4261",
+    selection_bg: "#2e3c64",
+
+    // Syntax highlighting
+    keyword: "#9d7cd8",
+    function: "#7aa2f7",
+    type: "#e0af68",
+    string: "#9ece6a",
+    constant: "#ff9e64",
+    comment: "#565f89",
+    variable: "#c0caf5",
+    operator: "#89ddff",
+    template: "#7dcfff",
+
+    // UI indicators
+    error: "#db4b4b",
+    warning: "#e0af68",
+    info: "#0db9d7",
+    success: "#1abc9c",
+
+    // Git colors
+    git_added: "#9ece6a",
+    git_modified: "#7aa2f7",
+    git_deleted: "#f7768e",
+  };
 
   editor = {
     Normal: {
-      fg: "colors.fg",
-      bg: "colors.bg",
+      fg: "colors.foreground",
+      bg: "colors.background",
     },
     NormalFloat: {
-      fg: "colors.fg",
-      bg: "colors.bg_dark",
+      fg: "colors.foreground",
+      bg: "colors.background_darker",
     },
     Cursor: {
-      fg: "colors.bg",
-      bg: "colors.fg",
+      fg: "colors.background",
+      bg: "colors.foreground",
     },
     CursorLine: {
-      bg: "colors.bg_highlight",
+      bg: "colors.background_highlight",
     },
     CursorColumn: {
-      bg: "colors.bg_highlight",
+      bg: "colors.background_highlight",
     },
     LineNr: {
-      fg: "colors.fg_gutter",
+      fg: "colors.foreground_subtle",
     },
     CursorLineNr: {
-      fg: "colors.fg_dark",
+      fg: "colors.foreground_muted",
     },
-    SignColumn: { bg: "colors.bg" },
-    ColorColumn: { bg: "colors.bg_highlight" },
-    Folded: { fg: "colors.blue", bg: "colors.fg_gutter" },
-    FoldColumn: { fg: "colors.fg_gutter" },
-    VertSplit: { fg: "colors.fg_gutter" },
-  };
-
-  diff = {
-    DiffAdd: {
-      fg: "colors.green",
-      bg: "colors.bg_highlight",
+    SignColumn: {
+      bg: "colors.background",
     },
-    DiffChange: {
-      fg: "colors.blue",
-      bg: "colors.bg_highlight",
+    ColorColumn: {
+      bg: "colors.background_highlight",
     },
-    DiffDelete: {
-      fg: "colors.red",
-      bg: "colors.bg_highlight",
+    Folded: {
+      fg: "colors.function",
+      bg: "colors.foreground_subtle",
     },
-    DiffText: {
-      fg: "colors.blue",
-      bg: "colors.bg_highlight",
+    FoldColumn: {
+      fg: "colors.foreground_subtle",
     },
-  };
-
-  search_selection = {
-    Search: {
-      fg: "colors.selection",
-      bg: "colors.bg_highlight",
+    VertSplit: {
+      fg: "colors.foreground_subtle",
     },
-
-    IncSearch: {
-      fg: "colors.blue",
-      bg: "colors.bg_highlight",
-    },
-
-    Visual: {
-      fg: "colors.blue",
-      bg: "colors.bg_highlight",
-    },
-
-    VisualNOS: {
-      fg: "colors.blue",
-      bg: "colors.bg_highlight",
-    },
-  };
-
-  selection = {
-    Visual: { bg: "colors.selection" },
-    VisualNOS: { bg: "colors.selection" },
-    Search: { fg: "colors.bg", bg: "colors.blue" },
-    IncSearch: { fg: "colors.bg", bg: "colors.orange" },
   };
 
   syntax = {
     Comment: {
-      fg: "colors.gray",
+      fg: "colors.comment",
       italic: true,
     },
     Constant: {
-      fg: "colors.orange",
+      fg: "colors.constant",
     },
     String: {
-      fg: "colors.green",
+      fg: "colors.string",
     },
     Character: {
-      fg: "colors.green",
+      fg: "colors.string",
     },
     Number: {
-      fg: "colors.orange",
+      fg: "colors.constant",
     },
     Boolean: {
-      fg: "colors.orange",
+      fg: "colors.constant",
     },
     Float: {
-      fg: "colors.orange",
+      fg: "colors.constant",
     },
     Function: {
-      fg: "colors.blue",
+      fg: "colors.function",
     },
     Statement: {
-      fg: "colors.purple",
+      fg: "colors.keyword",
     },
     Keyword: {
-      fg: "colors.purple",
+      fg: "colors.keyword",
     },
     Special: {
-      fg: "colors.purple",
+      fg: "colors.keyword",
     },
     Type: {
-      fg: "colors.yellow",
+      fg: "colors.type",
     },
     TemplateStringPlaceholder: {
-      fg: "colors.cyan",
+      fg: "colors.template",
     },
     Exception: {
-      fg: "colors.cyan",
+      fg: "colors.template",
     },
     Typedef: {
-      fg: "colors.cyan",
-    },
-  };
-
-  spelling = {
-    SpellBad: {
-      fg: "colors.red",
-      sp: "colors.red",
-    },
-    SpellRare: {
-      fg: "colors.yellow",
-      sp: "colors.yellow",
+      fg: "colors.template",
     },
   };
 
@@ -181,7 +167,7 @@ class ThemeModel {
       fg: "colors.info",
     },
     DiagnosticHint: {
-      fg: "colors.hint",
+      fg: "colors.success",
     },
     DiagnosticUnderlineError: {
       sp: "colors.error",
@@ -196,28 +182,21 @@ class ThemeModel {
       undercurl: true,
     },
     DiagnosticUnderlineHint: {
-      sp: "colors.hint",
+      sp: "colors.success",
       undercurl: true,
     },
   };
 
   git = {
     GitSignsAdd: {
-      fg: "colors.green",
+      fg: "colors.git_added",
     },
     GitSignsChange: {
-      fg: "colors.blue",
+      fg: "colors.git_modified",
     },
     GitSignsDelete: {
-      fg: "colors.red",
+      fg: "colors.git_deleted",
     },
-  };
-
-  statusline = {
-    StatusLine: { fg: "colors.fg", bg: "colors.bg_dark" },
-    StatusLineNC: { fg: "colors.fg_dark", bg: "colors.bg_dark" },
-    WindowBar: { fg: "colors.fg", bg: "colors.bg_dark" },
-    WindowBarNC: { fg: "colors.fg_dark", bg: "colors.bg_dark" },
   };
 
   constructor() {
@@ -260,11 +239,6 @@ class ThemeModel {
       ...this.syntax,
       ...this.lsp,
       ...this.git,
-      ...this.statusline,
-      ...this.spelling,
-      ...this.selection,
-      ...this.diff,
-      ...this.search_selection,
       // Add any other groups you want to include
     };
 

@@ -14,7 +14,6 @@ class OpenAIModel {
     if (savedKey) {
       this.apiKey = savedKey;
     }
-    console.log("??", savedKey, this.apiKey);
   }
 
   setApiKey = (key: string) => {
