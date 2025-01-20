@@ -1,7 +1,14 @@
 import React, { useState } from "react";
+import { observer } from "mobx-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button"; // Assuming a Button component is available
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 import themeModel from "../../models/theme/themeModel";
 
@@ -18,7 +25,7 @@ const ColorPanel = () => {
 
   const handleColorChange = (e, key) => {
     console.log(e.target.value, key);
-    themeModel.changeColorValue(key, e.target.value);
+    themeModel.setColor(key, e.target.value);
   };
 
   return (
@@ -29,15 +36,24 @@ const ColorPanel = () => {
       <CardContent>
         <div className="grid grid-cols-3 gap-3">
           {Object.entries(themeModel.colors).map(([key, color]) => (
-            <Input
-              type="color"
-              value={color}
-              key={key}
-              onChange={(e) => handleColorChange(e, key)}
-            ></Input>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Input
+                    type="color"
+                    value={color}
+                    key={key}
+                    onChange={(e) => handleColorChange(e, key)}
+                  ></Input>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{key}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           ))}
         </div>
-        <div className="flex flex-col mt-4">
+        <div className="flex flex-col mt-4 gap-3">
           <Input
             placeholder="Color Name"
             value={newColor.name}
@@ -59,4 +75,4 @@ const ColorPanel = () => {
   );
 };
 
-export default ColorPanel;
+export default observer(ColorPanel);

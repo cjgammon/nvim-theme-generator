@@ -1,33 +1,21 @@
-import { ColorPalette } from "./color";
-
-export const defaultColors: ColorPalette = {
-  id: "default",
-  name: "Default Dark",
-  colors: {
-    bg: {
-      id: "bg",
-      name: "Background",
-      value: "#1a1b26",
-      description: "Main background color",
-      category: "base",
-      isDefault: true,
-    },
-    bg_dark: {
-      id: "bg_dark",
-      name: "Dark Background",
-      value: "#16161e",
-      description: "Darker background for contrasting elements",
-      category: "base",
-      isDefault: true,
-    },
-    fg: {
-      id: "fg",
-      name: "Foreground",
-      value: "#c0caf5",
-      description: "Main text color",
-      category: "base",
-      isDefault: true,
-    },
-    // ... other default colors
-  },
+export default {
+  bg: "#1a1b26",
+  bg_dark: "#16161e",
+  bg_highlight: "#292e42",
+  fg: "#c0caf5",
+  fg_dark: "#a9b1d6",
+  fg_gutter: "#3b4261",
+  selection: "#2e3c64",
+  red: "#f7768e",
+  green: "#9ece6a",
+  yellow: "#e0af68",
+  blue: "#7aa2f7",
+  purple: "#9d7cd8",
+  cyan: "#7dcfff",
+  orange: "#ff9e64",
+  gray: "#565f89",
+  error: "#db4b4b",
+  warning: "#e0af68",
+  info: "#0db9d7",
+  hint: "#1abc9c",
 };

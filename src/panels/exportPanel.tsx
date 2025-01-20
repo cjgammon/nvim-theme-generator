@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button"; // Assuming a Button component is available
 import themeModel from "../models/theme/themeModel";
+import defaultColors from "../models/colors/default";
 
 const ExportPanel = () => {
   const exportTheme = () => {
@@ -21,33 +22,42 @@ const ExportPanel = () => {
     return randomColor;
   };
 
-  const getContrastYIQ = (hexcolor) => {
+  const getContrastYIQ = (hexcolor, bgColor) => {
     const r = parseInt(hexcolor.slice(1, 3), 16);
     const g = parseInt(hexcolor.slice(3, 5), 16);
     const b = parseInt(hexcolor.slice(5, 7), 16);
     const yiq = (r * 299 + g * 587 + b * 114) / 1000;
-    return yiq >= 128 ? "black" : "white";
+    const bgR = parseInt(bgColor.slice(1, 3), 16);
+    const bgG = parseInt(bgColor.slice(3, 5), 16);
+    const bgB = parseInt(bgColor.slice(5, 7), 16);
+    const bgYIQ = (bgR * 299 + bgG * 587 + bgB * 114) / 1000;
+
+    return (yiq >= 128 && bgYIQ < 128) || (yiq < 128 && bgYIQ >= 128)
+      ? "black"
+      : "white";
   };
 
-  /*
   const randomizeColors = () => {
     const newColors = {};
+    const bgColor = themeModel.colors.bg; // Assuming defaultColors.bg is the background color
     for (const key in defaultColors) {
       if (key !== "bg") {
         let color;
         do {
           color = getRandomColor();
-        } while (getContrastYIQ(color) === "white" && key !== "bg"); // Ensure contrast for text colors
+        } while (getContrastYIQ(color, bgColor) === "white" && key !== "bg"); // Ensure contrast for text colors
         newColors[key] = color;
       } else {
-        newColors[key] = defaultColors[key];
+        newColors[key] = bgColor;
       }
     }
 
-    const palette: ColorPalette = newColors as ColorPalette;
-    setColors(palette);
+    setColors(newColors);
   };
-  */
+
+  const setColors = (colors: any) => {
+    themeModel.setColors(colors);
+  };
 
   return (
     <Card>
@@ -60,13 +70,13 @@ const ExportPanel = () => {
             Export Theme
           </Button>
           <Button
-            //onClick={() => setColors(defaultColors)}
+            onClick={() => setColors(defaultColors)}
             className="w-full bg-gray-600 text-white"
           >
             Reset to Default
           </Button>
           <Button
-            //onClick={randomizeColors}
+            onClick={randomizeColors}
             className="w-full bg-green-600 text-white"
           >
             Randomize Colors

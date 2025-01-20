@@ -157,13 +157,15 @@ class ThemeModel {
     makeAutoObservable(this);
   }
 
-  changeColorValue(key, value) {
+  setColor(key, value) {
     this.colors[key] = value;
   }
 
+  setColors(colors) {
+    this.colors = Object.assign(colors);
+  }
+
   updateColor(section: string, item: string, label: string, newValue: string) {
-    console.log("update theme store", newValue);
-    //this.themeModel[section][item][label] = `colors.${newValue}`;
     this[section][item][label] = `colors.${newValue}`;
   }
 
