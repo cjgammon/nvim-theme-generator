@@ -67,7 +67,7 @@ const ExportPanel = () => {
         <div className="mt-4 space-y-2">
           <Button
             onClick={exportTheme}
-            className="w-full bg-blue-600 text-white"
+            className="w-full bg-green-600 text-white"
           >
             Export Theme
           </Button>
@@ -79,7 +79,7 @@ const ExportPanel = () => {
           </Button>
           <Button
             onClick={randomizeColors}
-            className="w-full bg-green-600 text-white"
+            className="w-full bg-pink-600 text-white"
           >
             Randomize Colors
           </Button>

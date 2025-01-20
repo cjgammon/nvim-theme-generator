@@ -26,7 +26,7 @@ const ThemePanel = () => {
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
         ></Input>
-        <Accordion type="single" collapsible>
+        <Accordion type="multiple" collapsible>
           {Object.entries(themeStructure.groups)
             .filter(([key, value]) =>
               Object.entries(value.groups).some(
@@ -52,7 +52,9 @@ const ThemePanel = () => {
                               value={"test" + index}
                               key={key + index}
                             >
-                              <AccordionTrigger>{key}</AccordionTrigger>
+                              <AccordionTrigger className="bg-gray-100">
+                                {key}
+                              </AccordionTrigger>
                               <AccordionContent>
                                 <div>{value.description}</div>
                                 <GroupComponent
