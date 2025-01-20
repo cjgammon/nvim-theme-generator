@@ -11,21 +11,32 @@ import {
 } from "@/components/ui/tooltip";
 
 import themeModel from "../../models/theme/themeModel";
+import { formatHexColor } from "../../utils/utils";
 
 const ColorPanel = () => {
   const [newColor, setNewColor] = useState({ name: "", value: "" });
 
   const addNewColor = () => {
     if (newColor.name && newColor.value) {
-      themeModel.colors[newColor.name.toLowerCase().replace(/\s+/g, "_")] =
-        newColor.value;
-      setNewColor({ name: "", value: "" }); // Reset the input fields
+      try {
+        const formattedColor = formatHexColor(newColor.value);
+        themeModel.colors[newColor.name.toLowerCase().replace(/\s+/g, "_")] =
+          formattedColor;
+        setNewColor({ name: "", value: "" }); // Reset the input fields
+      } catch (error) {
+        console.error(error.message);
+      }
     }
   };
 
   const handleColorChange = (e, key) => {
-    console.log(e.target.value, key);
-    themeModel.setColor(key, e.target.value);
+    const newColorValue = e.target.value;
+    try {
+      const formattedColor = formatHexColor(newColorValue);
+      themeModel.setColor(key, formattedColor);
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   return (

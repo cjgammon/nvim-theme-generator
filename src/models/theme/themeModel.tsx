@@ -71,7 +71,20 @@ class ThemeModel {
       fg: "colors.blue",
       bg: "colors.bg_highlight",
     },
+    SignColumn: { bg: "colors.bg" },
+    ColorColumn: { bg: "colors.bg_highlight" },
+    Folded: { fg: "colors.blue", bg: "colors.fg_gutter" },
+    FoldColumn: { fg: "colors.fg_gutter" },
+    VertSplit: { fg: "colors.fg_gutter" },
   };
+
+  selection = {
+    Visual: { bg: "colors.selection" },
+    VisualNOS: { bg: "colors.selection" },
+    Search: { fg: "colors.bg", bg: "colors.blue" },
+    IncSearch: { fg: "colors.bg", bg: "colors.orange" },
+  };
+
   syntax = {
     Comment: {
       fg: "colors.gray",
@@ -198,7 +211,13 @@ ${Object.entries(groups)
       .filter(([key]) => !["fg", "bg", "sp"].includes(key))
       .map(([key, value]) => `${key} = ${value}`)
       .join(", ");
-    return `  ${groupName} = { ${fg} ${bg} ${sp} ${otherAttributes} },`;
+
+    const groupValues = [fg, bg, sp, otherAttributes]
+      .filter((value) => {
+        return value !== "";
+      })
+      .join(", ");
+    return `  ${groupName} = { ${groupValues} },`;
   })
   .join("\n")}
 }
@@ -214,6 +233,12 @@ function M.setup()
     for group, settings in pairs(groups) do
         vim.api.nvim_set_hl(0, group, settings)
     end
+
+    vim.defer_fn(function()
+      vim.api.nvim_set_hl(0, "CursorLine", { bg = ${
+        this.editor.CursorLine.bg
+      } })
+    end, 100)
 end
 
 return M

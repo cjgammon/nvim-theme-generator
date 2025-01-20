@@ -33,7 +33,9 @@ const ColorSwatchPicker = ({ color, label, selectedValue, onColorChange }) => {
   return (
     <div>
       <div className="grid grid-cols-4 relative">
-        <label className="col-span-1">{label}</label>
+        <label className="col-span-1 justify-self-center self-center">
+          {label}
+        </label>
         <Select
           value={selectedOption}
           className="col-span-1"
@@ -43,9 +45,13 @@ const ColorSwatchPicker = ({ color, label, selectedValue, onColorChange }) => {
             <SelectValue placeholder="select a theme" />
           </SelectTrigger>
           <SelectContent>
-            {colorSwatches.map(([key], index) => {
+            {colorSwatches.map(([key, value], index) => {
               return (
                 <SelectItem key={index + key + label} value={key}>
+                  <span
+                    className="size-3 rounded-full inline-block mr-2"
+                    style={{ backgroundColor: value }}
+                  ></span>
                   {key}
                 </SelectItem>
               );

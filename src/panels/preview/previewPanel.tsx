@@ -51,8 +51,9 @@ const PreviewPanel = () => {
     const hintColor = sanitizeColorName(themeModel.lsp.DiagnosticHint.fg);
     const infoColor = sanitizeColorName(themeModel.lsp.DiagnosticInfo.fg);
     const warningColor = sanitizeColorName(themeModel.lsp.DiagnosticWarn.fg);
+    const cursorColor = sanitizeColorName(themeModel.editor.CursorLine.bg);
 
-    return code
+    const editedCode = code
       .replace(
         stringRegex,
         `<span style="color:${colors[stringColor]};">$1</span>`
@@ -99,7 +100,17 @@ const PreviewPanel = () => {
         warningRegex,
         `<span style="color:${colors[warningColor]};">$&</span>`
       );
-    return code;
+
+    const lines = editedCode.split("\n"); // Split the code into lines
+    const highlightedLines = lines.map((line, index) => {
+      if (index === 20) {
+        // Line 21 (0-based index)
+        return `<span style="background-color:${colors[cursorColor]};">${line}</span>`; // Wrap line 21 in a span
+      }
+      return line; // Return unchanged line
+    });
+
+    return highlightedLines.join("\n"); // Join the lines
   };
 
   return (
