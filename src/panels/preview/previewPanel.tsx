@@ -91,13 +91,13 @@ const PreviewPanel = () => {
       })
       .replace(
         errorRegex,
-        `<span style="color:${colors[errorColor]};">$1</span>`
+        `<span style="color:${colors[errorColor]};">$&</span>`
       )
-      .replace(hintRegex, `<span style="color:${colors[hintColor]};">$1</span>`)
-      .replace(infoRegex, `<span style="color:${colors[infoColor]};">$1</span>`)
+      .replace(hintRegex, `<span style="color:${colors[hintColor]};">$&</span>`)
+      .replace(infoRegex, `<span style="color:${colors[infoColor]};">$&</span>`)
       .replace(
         warningRegex,
-        `<span style="color:${colors[warningColor]};">$1</span>`
+        `<span style="color:${colors[warningColor]};">$&</span>`
       );
     return code;
   };

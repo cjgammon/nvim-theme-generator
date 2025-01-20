@@ -1,54 +1,35 @@
 export default `
 /**
- * Calculates the factorial of a number.
- * @param {number} n - The number to calculate the factorial for.
- * @returns {number} - The factorial of the input number.
+ * Demo file showcasing syntax highlighting
+ * @param {string} input
  */
-function factorial(n) {
-  // Base case
-  if (n <= 1) {
-    return 1;
+function demo(input) {
+  // Variables and strings
+  const str = "Hello World";
+  let template = \`Value: \$\{input\}\`;
+
+  // Objects and arrays
+  const obj = { key: "value" };
+  const arr = [1, "two", { three: 3 }];
+
+  try {
+    throw new Error("Sample error");
+  } catch (err) {
+    console.warn("Warning message");
+    console.info("Info message");
   }
 
-  // Recursive case
-  return n * factorial(n - 1);
+  return arr.map(x => \`\$\{x\}!\`);
 }
 
-// Example usage
-const result = factorial(5);
-console.log("Factorial of 5 is:", result);
-
-// Working with arrays
-const fruits = ["apple", "banana", "cherry"];
-fruits.forEach((fruit, index) => {
-  console.log(\`Fruit \${index + 1}: \${fruit}\`);
-});
-
-// Handling objects
-const person = {
-  name: "John Doe",
-  age: 30,
-  greet: function() {
-    console.log(\`Hello, my name is \${this.name} and I am \${this.age} years old.\`);
-  },
-};
-
-// Call the greet method
-person.greet();
-
-class Animal {
-  constructor(name, sound) {
-    this.name = name;
-    this.sound = sound;
-  }
-
-  makeSound() {
-    console.log(\`\${this.name} says \${this.sound}!\`);
+// Class definition
+class Example {
+  constructor() {
+    this.value = 42;
   }
 }
 
-const dog = new Animal("Dog", "Woof");
-dog.makeSound();
+demo("test");
 
 {{Error}}
 [[Warning]]
