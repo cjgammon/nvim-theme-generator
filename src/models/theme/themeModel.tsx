@@ -200,6 +200,7 @@ class ThemeModel {
       undercurl: true,
     },
   };
+
   git = {
     GitSignsAdd: {
       fg: "colors.green",
@@ -210,6 +211,13 @@ class ThemeModel {
     GitSignsDelete: {
       fg: "colors.red",
     },
+  };
+
+  statusline = {
+    StatusLine: { fg: "colors.fg", bg: "colors.bg_dark" },
+    StatusLineNC: { fg: "colors.fg_dark", bg: "colors.bg_dark" },
+    WindowBar: { fg: "colors.fg", bg: "colors.bg_dark" },
+    WindowBarNC: { fg: "colors.fg_dark", bg: "colors.bg_dark" },
   };
 
   constructor() {
@@ -235,6 +243,11 @@ class ThemeModel {
       ...this.syntax,
       ...this.lsp,
       ...this.git,
+      ...this.statusline,
+      ...this.spelling,
+      ...this.selection,
+      ...this.diff,
+      ...this.search_selection,
       // Add any other groups you want to include
     };
 

@@ -63,7 +63,7 @@ const ColorPanel = () => {
       <CardContent>
         <div className="grid grid-cols-3 gap-3">
           {Object.entries(themeModel.colors).map(([key, color]) => (
-            <TooltipProvider>
+            <TooltipProvider key={key}>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Input

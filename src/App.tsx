@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import ConfigPanel from "./panels/config/configPanel";
+import PromptPanel from "./panels/prompt/promptPanel";
 
 const NvimThemeEditor = () => {
   return (
@@ -41,6 +42,9 @@ const NvimThemeEditor = () => {
           <ColorPanel />
           <ExportPanel />
         </div>
+      </div>
+      <div>
+        <PromptPanel />
       </div>
     </div>
   );

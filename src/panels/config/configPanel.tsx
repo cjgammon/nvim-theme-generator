@@ -1,34 +1,29 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Cookies from "js-cookie";
-import { useState, useEffect } from "react";
+import openaiModel from "../../models/openai/openaiModel";
+import { observer } from "mobx-react";
 
 const ConfigPanel = () => {
-  const [openAIKey, setOpenAIKey] = useState("");
-
-  useEffect(() => {
-    const savedKey = Cookies.get("openAIKey");
-    if (savedKey) {
-      setOpenAIKey(savedKey);
-    }
-  }, []);
+  const { apiKey, setApiKey, clearApiKey } = openaiModel;
 
   const handleSave = () => {
-    Cookies.set("openAIKey", openAIKey);
+    setApiKey(apiKey);
+  };
+
+  const handleClear = () => {
+    clearApiKey();
   };
 
   return (
     <div className="py-3">
       <div className="flex gap-3">
-        <label>OpenAI Key</label>
-        <Input
-          value={openAIKey}
-          onChange={(e) => setOpenAIKey(e.target.value)}
-        />
+        <label>OpenAI</label>
+        <Input value={apiKey} onChange={(e) => setApiKey(e.target.value)} />
+        <Button onClick={handleClear}>Clear</Button>
         <Button onClick={handleSave}>Save</Button>
       </div>
     </div>
   );
 };
 
-export default ConfigPanel;
+export default observer(ConfigPanel);
