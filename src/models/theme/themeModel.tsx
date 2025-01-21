@@ -7,30 +7,6 @@ class ThemeModel {
     description: "",
   };
 
-  /*
-  colors = {
-    bg: "#1a1b26",
-    bg_dark: "#16161e",
-    bg_highlight: "#292e42",
-    fg: "#c0caf5",
-    fg_dark: "#a9b1d6",
-    fg_gutter: "#3b4261",
-    selection: "#2e3c64",
-    red: "#f7768e",
-    green: "#9ece6a",
-    yellow: "#e0af68",
-    blue: "#7aa2f7",
-    purple: "#9d7cd8",
-    cyan: "#7dcfff",
-    orange: "#ff9e64",
-    gray: "#565f89",
-    error: "#db4b4b",
-    warning: "#e0af68",
-    info: "#0db9d7",
-    hint: "#1abc9c",
-  };
-  */
-
   colors = {
     // Base UI colors
     background: "#1a1b26",
@@ -43,7 +19,7 @@ class ThemeModel {
 
     // Syntax highlighting
     keyword: "#9d7cd8",
-    function: "#7aa2f7",
+    func: "#7aa2f7",
     type: "#e0af68",
     string: "#9ece6a",
     constant: "#ff9e64",
@@ -96,7 +72,7 @@ class ThemeModel {
       bg: "colors.background_highlight",
     },
     Folded: {
-      fg: "colors.function",
+      fg: "colors.func",
       bg: "colors.foreground_subtle",
     },
     FoldColumn: {
@@ -131,7 +107,7 @@ class ThemeModel {
       fg: "colors.constant",
     },
     Function: {
-      fg: "colors.function",
+      fg: "colors.func",
     },
     Statement: {
       fg: "colors.keyword",
@@ -153,6 +129,58 @@ class ThemeModel {
     },
     Typedef: {
       fg: "colors.template",
+    },
+    Operator: {
+      fg: "colors.operator",
+    },
+    Identifier: {
+      fg: "colors.variable", // Using variable color since identifiers are variables
+    },
+    Conditional: {
+      fg: "colors.keyword", // These are keywords like if/else
+    },
+    Repeat: {
+      fg: "colors.keyword", // These are keywords like for/while
+    },
+    Label: {
+      fg: "colors.keyword", // Labels are keywords
+    },
+    Include: {
+      fg: "colors.func", // Include statements are like function calls
+    },
+    Define: {
+      fg: "colors.keyword", // Preprocessor definitions are keywords
+    },
+    Macro: {
+      fg: "colors.keyword", // Macros are similar to definitions
+    },
+    PreCondit: {
+      fg: "colors.keyword", // Preprocessor conditionals are keywords
+    },
+    StorageClass: {
+      fg: "colors.type", // Storage classes are type-related
+    },
+    Structure: {
+      fg: "colors.type", // Structures are types
+    },
+    SpecialChar: {
+      fg: "colors.string", // Special characters appear in strings
+    },
+    Tag: {
+      fg: "colors.type", // Tags are like types
+    },
+    Delimiter: {
+      fg: "colors.foreground", // Delimiters should be subtle
+    },
+    SpecialComment: {
+      fg: "colors.comment", // Special comments are still comments
+      italic: true, // Keeping comment style
+    },
+    Debug: {
+      fg: "colors.warning", // Debug statements should stand out
+    },
+    PreProc: {
+      fg: "colors.keyword", // Preprocessor directives are keywords
     },
   };
 
@@ -199,6 +227,15 @@ class ThemeModel {
     },
   };
 
+  treesitter = {
+    '["@variable"]': {
+      fg: "colors.variable",
+    },
+    '["@variable.builtin"]': {
+      link: '"Special"',
+    },
+  };
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -221,11 +258,6 @@ class ThemeModel {
       ...this.syntax,
       ...this.lsp,
       ...this.git,
-      ...this.statusline,
-      ...this.spelling,
-      ...this.selection,
-      ...this.diff,
-      ...this.search_selection,
       // Add any other groups you want to include
     };
 
@@ -239,6 +271,7 @@ class ThemeModel {
       ...this.syntax,
       ...this.lsp,
       ...this.git,
+      ...this.treesitter,
       // Add any other groups you want to include
     };
 
@@ -285,9 +318,9 @@ function M.setup()
     end
 
     vim.defer_fn(function()
-      vim.api.nvim_set_hl(0, "CursorLine", { bg = ${
-        this.editor.CursorLine.bg
-      } })
+      for group, settings in pairs(groups) do
+          vim.api.nvim_set_hl(0, group, settings)
+      end
     end, 100)
 end
 
