@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button"; // Assuming a Button component is available
 import themeModel from "../models/theme/themeModel";
 import defaultColors from "../models/colors/default";
+import { sanitizeColorName } from "../utils/utils";
 
 const ExportPanel = () => {
   const exportTheme = () => {
@@ -41,7 +42,9 @@ const ExportPanel = () => {
 
   const randomizeColors = () => {
     const newColors = {};
-    const bgColor = themeModel.colors.bg; // Assuming defaultColors.bg is the background color
+    const bgColor =
+      themeModel.colors[sanitizeColorName(themeModel.editor.Normal.bg)];
+
     for (const key in defaultColors) {
       if (key !== "bg") {
         let color;
