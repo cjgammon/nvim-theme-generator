@@ -5,6 +5,7 @@ class ThemeModel {
     name: "My Theme",
     author: "",
     description: "",
+    background: "dark",
   };
 
   colors = {

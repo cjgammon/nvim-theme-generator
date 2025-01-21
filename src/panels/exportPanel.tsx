@@ -46,7 +46,7 @@ const ExportPanel = () => {
       themeModel.colors[sanitizeColorName(themeModel.editor.Normal.bg)];
 
     for (const key in defaultColors) {
-      if (key !== "bg") {
+      if (key !== sanitizeColorName(themeModel.editor.Normal.bg)) {
         let color;
         do {
           color = getRandomColor();
