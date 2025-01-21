@@ -2,6 +2,8 @@
 
 UI for creating NVIM Themes
 
+![CleanShot 2025-01-20 at 22 46 03@2x](https://github.com/user-attachments/assets/c592b55c-3730-4736-bfae-6d0e1b7bdd88)
+
 ## Export
 
 It will save out `init.lua`, install this in your `.config/nvim/lua/` directory.
