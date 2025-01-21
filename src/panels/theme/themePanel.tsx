@@ -28,7 +28,7 @@ const ThemePanel = () => {
         ></Input>
         <Accordion type="multiple" collapsible>
           {Object.entries(themeStructure.groups)
-            .filter(([key, value]) =>
+            .filter(([_, value]) =>
               Object.entries(value.groups).some(
                 ([itemKey]) =>
                   itemKey.toLowerCase().includes(filter.toLowerCase()) // Check if any inner item matches the filter
