@@ -19,7 +19,14 @@ const NvimThemeEditor = () => {
   return (
     <div className="flex flex-col p-4 h-screen w-screen">
       <div className="flex gap-3 py-2 justify-between">
-        <h3 className="font-bold uppercase">theme maker</h3>
+        <div className="flex gap-3 items-baseline">
+          <h3 className="font-bold uppercase text-3xl">
+            theme <span className="text-blue-800">maker</span>
+          </h3>{" "}
+          <div>
+            by <a href="https://www.cjgammon.com/">cjgammon</a>
+          </div>
+        </div>
         <Dialog>
           <DialogTrigger asChild>
             <Button>Config</Button>
