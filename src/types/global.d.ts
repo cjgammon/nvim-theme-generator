@@ -7,4 +7,6 @@ declare module "@/components/ui/accordion";
 declare module "@/components/ui/checkbox";
 declare module "@/components/ui/select";
 declare module "@/components/ui/dialog";
+declare module "@/components/ui/toaster";
+declare module "@/hooks/use-toast";
 declare module "@/lib/utils";

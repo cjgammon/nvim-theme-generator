@@ -6,7 +6,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -14,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import ConfigPanel from "./panels/config/configPanel";
 import PromptPanel from "./panels/prompt/promptPanel";
+import { Toaster } from "@/components/ui/toaster";
 
 const NvimThemeEditor = () => {
   return (
@@ -46,6 +46,7 @@ const NvimThemeEditor = () => {
       <div>
         <PromptPanel />
       </div>
+      <Toaster />
     </div>
   );
 };

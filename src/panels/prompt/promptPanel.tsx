@@ -4,13 +4,25 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import openaiModel from "../../models/openai/openaiModel";
 import themeModel from "../../models/theme/themeModel";
+import { useToast } from "@/hooks/use-toast";
 
 const PromptPanel = () => {
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const { toast } = useToast();
+
   const handleSubmit = async () => {
     if (!prompt) return;
+
+    if (!openaiModel.apiKey || openaiModel.apiKey == "") {
+      toast({
+        variant: "destructive",
+        title: "No API Key",
+        description: "You must add an API Key in Config.",
+      });
+      return;
+    }
 
     setLoading(true);
     try {
@@ -18,8 +30,6 @@ const PromptPanel = () => {
         /(#[0-9a-zA-Z])\w+/g,
         "#000000"
       );
-
-      console.log(JSON.parse(exampleSchema));
 
       const response = await fetch(
         "https://api.openai.com/v1/chat/completions",
@@ -59,6 +69,8 @@ const PromptPanel = () => {
         }
       );
 
+      console.log(response);
+
       const data = await response.json();
       if (data.choices && data.choices.length > 0) {
         const newColors = JSON.parse(data.choices[0].message.content);
@@ -85,7 +97,7 @@ const PromptPanel = () => {
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="Enter your prompt for a theme"
         />
-        <Button onClick={handleSubmit} disabled={loading}>
+        <Button onClick={handleSubmit} disabled={loading || prompt.length < 1}>
           {loading ? "Loading..." : "Submit"}
         </Button>
       </CardContent>
