@@ -1,16 +1,4 @@
-export const exportLua = (name, colors, groups) => {
-  /*
-    const colors = this.colors;
-    const groups = {
-      ...this.editor,
-      ...this.syntax,
-      ...this.lsp,
-      ...this.git,
-      ...this.treesitter,
-      // Add any other groups you want to include
-    };
-    */
-
+export const exportLua = (name, colors, groups: Object) => {
   const luaTheme = `
 local M = {}
 
