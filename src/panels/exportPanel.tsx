@@ -5,15 +5,29 @@ import themeModel from "../models/theme/themeModel";
 import defaultColors from "../models/colors/default";
 import { sanitizeColorName } from "../utils/utils";
 
+const NAME = "test";
+
 const ExportPanel = () => {
-  const exportTheme = () => {
-    const luaTheme = themeModel.export();
+  const exportLuaTheme = () => {
+    const luaTheme = themeModel.exportLua(NAME);
 
     const blob = new Blob([luaTheme], { type: "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
     a.download = "init.lua";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const exportVscodeTheme = () => {
+    const vscTheme = themeModel.exportVSCodeTheme(NAME);
+
+    const blob = new Blob([vscTheme], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${name}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -69,11 +83,19 @@ const ExportPanel = () => {
       <CardContent>
         <div className="mt-4 space-y-2">
           <Button
-            onClick={exportTheme}
+            onClick={exportLuaTheme}
             className="w-full bg-green-600 text-white"
           >
-            Export Theme
+            Export NVIM Theme
           </Button>
+
+          <Button
+            onClick={exportVscodeTheme}
+            className="w-full bg-green-600 text-white"
+          >
+            Export VSCode Theme
+          </Button>
+
           <Button
             onClick={() => setColors(defaultColors)}
             className="w-full bg-gray-600 text-white"
